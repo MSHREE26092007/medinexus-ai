@@ -98,11 +98,17 @@ c.drawCentredString(W / 2, H - 118.5 * mm, "Problem Domain: Healthcare")
 
 c.setFont("Helvetica-Bold", 12)
 c.setFillColor(TEAL)
-repo_txt = "github.com/MSHREE26092007/medinexus-ai"
-c.drawCentredString(W / 2, 32 * mm, repo_txt)
+demo_txt = "Live demo: mshree26092007.github.io/medinexus-ai"
+c.drawCentredString(W / 2, 38 * mm, demo_txt)
+tw = c.stringWidth(demo_txt, "Helvetica-Bold", 12)
+c.linkURL("https://mshree26092007.github.io/medinexus-ai/",
+          (W / 2 - tw / 2, 36 * mm, W / 2 + tw / 2, 43 * mm), relative=0)
+
+repo_txt = "GitHub: github.com/MSHREE26092007/medinexus-ai"
+c.drawCentredString(W / 2, 31 * mm, repo_txt)
 tw = c.stringWidth(repo_txt, "Helvetica-Bold", 12)
 c.linkURL("https://github.com/MSHREE26092007/medinexus-ai",
-          (W / 2 - tw / 2, 30 * mm, W / 2 + tw / 2, 37 * mm), relative=0)
+          (W / 2 - tw / 2, 29 * mm, W / 2 + tw / 2, 36 * mm), relative=0)
 
 c.setFont("Helvetica", 10)
 c.setFillColor(SLATE_400)
@@ -257,10 +263,16 @@ c.drawString(35 * mm, 34 * mm, gh_txt)
 gh_w = c.stringWidth(gh_txt, "Helvetica-Bold", 10)
 c.linkURL("https://github.com/MSHREE26092007/medinexus-ai",
           (35 * mm, 32 * mm, 35 * mm + gh_w, 38 * mm), relative=0)
+c.setFont("Helvetica-Bold", 10)
+c.setFillColor(TEAL_DARK)
+site_txt = "·  Live demo: mshree26092007.github.io/medinexus-ai"
+c.drawString(38 * mm + gh_w, 34 * mm, site_txt)
+site_w = c.stringWidth(site_txt, "Helvetica-Bold", 10)
+c.linkURL("https://mshree26092007.github.io/medinexus-ai/",
+          (38 * mm + gh_w, 32 * mm, 38 * mm + gh_w + site_w, 38 * mm), relative=0)
 c.setFont("Helvetica", 10)
 c.setFillColor(SLATE_600)
-c.drawString(38 * mm + gh_w, 34 * mm,
-             "·  Website/demo: runs fully offline on any laptop — setup in the README.")
+c.drawString(41 * mm + gh_w + site_w, 34 * mm, "(full offline version: see README)")
 c.showPage()
 
 # ---------------- Slide 6 — Tech Stack ----------------

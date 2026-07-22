@@ -17,7 +17,7 @@ FILL = {
     # ---- Slide 1: Title ----
     (1, 12): ["TEAM MEDINEXUS"],
     (1, 13): ["MediNexus AI"],
-    (1, 14): ["Healthcare  |  Autonomous Offline Clinical Intelligence Platform"],
+    (1, 14): ["Healthcare"],
     (1, 15): [""],
 
     # ---- Slide 2: Problem Statement ----
@@ -177,6 +177,71 @@ def tweak_shape(shape, opts):
         shape.width = Inches(opts["width"])
 
 
+GH_URL = "https://github.com/MSHREE26092007/medinexus-ai"
+SITE_URL = "https://mshree26092007.github.io/medinexus-ai/"
+
+
+def add_links(prs):
+    """Add clickable GitHub + live-demo links on slides 1 and 5.
+
+    Hyperlink is set on the SHAPE (click action), not the text runs, so the
+    text keeps the template-matching white Lato instead of the theme's dark
+    hyperlink blue (unreadable on these backgrounds)."""
+    from pptx.util import Inches, Pt
+    from pptx.dml.color import RGBColor
+    # slide idx: L, T, and per-link offset (dx, dy). Slide 1 stacks the links
+    # left-aligned; slide 5 keeps them side by side.
+    placements = {0: (0.55, 3.38, 0.0, 0.36), 4: (0.68, 4.78, 4.6, 0.0)}
+    links = [("GitHub:  github.com/MSHREE26092007/medinexus-ai", GH_URL),
+             ("Live demo:  mshree26092007.github.io/medinexus-ai", SITE_URL)]
+    for idx, (left, top, dx, dy) in placements.items():
+        slide = list(prs.slides)[idx]
+        for i, (text, url) in enumerate(links):
+            box = slide.shapes.add_textbox(Inches(left + i * dx), Inches(top + i * dy),
+                                           Inches(4.4), Inches(0.35))
+            tf = box.text_frame
+            tf.word_wrap = False
+            run = tf.paragraphs[0].add_run()
+            run.text = text
+            run.font.name = "Lato"
+            run.font.size = Pt(13)
+            run.font.bold = True
+            run.font.underline = True
+            run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+            box.click_action.hyperlink.address = url
+
+
+def restyle_title_slide(prs):
+    """Slide 1: upper-left = domain, then project name, then small description."""
+    from pptx.util import Inches, Pt
+    from pptx.dml.color import RGBColor
+    slide = list(prs.slides)[0]
+    for sh in slide.shapes:
+        if sh.shape_id == 13:          # "MediNexus AI" title: move up under domain
+            sh.top = Inches(2.10)
+    desc = slide.shapes.add_textbox(Inches(0.55), Inches(2.82), Inches(6.9), Inches(0.35))
+    tf = desc.text_frame
+    tf.word_wrap = False
+    run = tf.paragraphs[0].add_run()
+    run.text = ("An offline AI clinical copilot — unified records, RAG medical "
+                "knowledge, live vitals & risk prediction.")
+    run.font.name = "Lato"
+    run.font.size = Pt(13)
+    run.font.color.rgb = RGBColor(0xE8, 0xE8, 0xF2)
+
+
+def add_flowchart(prs):
+    """Slide 3: replace the idle gray placeholder graphics on the left with the
+    solution flowchart image."""
+    from pptx.util import Inches
+    slide = list(prs.slides)[2]
+    for sh in list(slide.shapes):
+        if sh.shape_id in (5, 6, 7, 9, 11):   # gray placeholder blocks/mountains
+            sh._element.getparent().remove(sh._element)
+    slide.shapes.add_picture(r"C:\Users\mshre\medinexus-ai\docs\solution_flow.png",
+                             Inches(0.13), Inches(2.90), Inches(3.85), Inches(2.55))
+
+
 def main():
     prs = Presentation(SRC)
     done = set()
@@ -193,8 +258,11 @@ def main():
     missing = set(FILL) - done
     if missing:
         raise SystemExit(f"ERROR — shapes not found: {sorted(missing)}")
+    add_links(prs)
+    restyle_title_slide(prs)
+    add_flowchart(prs)
     prs.save(OUT)
-    print(f"All {len(done)} shapes filled. Saved: {OUT}")
+    print(f"All {len(done)} shapes filled + links added. Saved: {OUT}")
 
 
 if __name__ == "__main__":
