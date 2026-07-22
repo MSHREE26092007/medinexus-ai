@@ -96,6 +96,14 @@ c.setFillColor(white)
 c.setFont("Helvetica-Bold", 11)
 c.drawCentredString(W / 2, H - 118.5 * mm, "Problem Domain: Healthcare")
 
+c.setFont("Helvetica-Bold", 12)
+c.setFillColor(TEAL)
+repo_txt = "github.com/MSHREE26092007/medinexus-ai"
+c.drawCentredString(W / 2, 32 * mm, repo_txt)
+tw = c.stringWidth(repo_txt, "Helvetica-Bold", 12)
+c.linkURL("https://github.com/MSHREE26092007/medinexus-ai",
+          (W / 2 - tw / 2, 30 * mm, W / 2 + tw / 2, 37 * mm), relative=0)
+
 c.setFont("Helvetica", 10)
 c.setFillColor(SLATE_400)
 c.drawCentredString(W / 2, 22 * mm,
@@ -233,15 +241,26 @@ for big, small in stats:
         ty -= 4 * mm
     x += box_w + 6 * mm
 
-card(30 * mm, 32 * mm, W - 60 * mm, 22 * mm, fill=HexColor("#f0fdfa"), stroke=TEAL)
+card(30 * mm, 28 * mm, W - 60 * mm, 28 * mm, fill=HexColor("#f0fdfa"), stroke=TEAL)
 c.setFillColor(TEAL_DARK)
 c.setFont("Helvetica-Bold", 11)
-c.drawString(35 * mm, 46 * mm, "Current status: Phase 1 live and demo-ready")
+c.drawString(35 * mm, 48 * mm, "Current status: Phase 1 live and demo-ready")
 c.setFont("Helvetica", 10)
 c.setFillColor(SLATE_600)
-c.drawString(35 * mm, 39 * mm,
+c.drawString(35 * mm, 41 * mm,
              "Working dashboard with 30 seeded patients, full CRUD + search, risk analytics and bed-occupancy "
              "stats — verified end-to-end in the browser.")
+c.setFont("Helvetica-Bold", 10)
+c.setFillColor(TEAL_DARK)
+gh_txt = "GitHub: github.com/MSHREE26092007/medinexus-ai"
+c.drawString(35 * mm, 34 * mm, gh_txt)
+gh_w = c.stringWidth(gh_txt, "Helvetica-Bold", 10)
+c.linkURL("https://github.com/MSHREE26092007/medinexus-ai",
+          (35 * mm, 32 * mm, 35 * mm + gh_w, 38 * mm), relative=0)
+c.setFont("Helvetica", 10)
+c.setFillColor(SLATE_600)
+c.drawString(38 * mm + gh_w, 34 * mm,
+             "·  Website/demo: runs fully offline on any laptop — setup in the README.")
 c.showPage()
 
 # ---------------- Slide 6 — Tech Stack ----------------

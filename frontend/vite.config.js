@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+  // GHPAGES=1 builds for https://<user>.github.io/medinexus-ai/
+  base: process.env.GHPAGES ? '/medinexus-ai/' : '/',
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
